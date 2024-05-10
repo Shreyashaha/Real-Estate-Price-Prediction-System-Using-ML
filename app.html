@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pune Home Price Prediction</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+    <script src="app.js"></script>
+
+	<link rel="stylesheet" href="app.css">
+	
+</head>
+
+
+<body>
+<div class="img"></div>
+<div class="form_data">
+<form class="form">
+	<h2>Area (Square Feet)</h2>
+    <input class="area"  type="text" id="uiSqft" class="floatLabel" name="Squareft" value="1000 ">
+	<h2>BHK</h2>
+	<div class="switch-field">
+		<input type="radio" id="radio-bath-1" name="uiBathrooms" value="1"/>
+		<label for="radio-bath-1">1</label>
+		<input type="radio" id="radio-bath-2" name="uiBathrooms" value="2" checked/>
+		<label for="radio-bath-2">2</label>
+		<input type="radio" id="radio-bath-3" name="uiBathrooms" value="3"/>
+		<label for="radio-bath-3">3</label>
+		<input type="radio" id="radio-bath-4" name="uiBathrooms" value="4"/>
+		<label for="radio-bath-4">4</label>
+		<input type="radio" id="radio-bath-5" name="uiBathrooms" value="5"/>
+		<label for="radio-bath-5">5</label>
+	</div>
+	</form>
+<form class="form">
+	<h2>Bathroom</h2>
+	<div class="switch-field">
+		<input type="radio" id="radio-bhk-1" name="uiBHK" value="1"/>
+		<label for="radio-bhk-1">5</label>
+		<input type="radio" id="radio-bhk-2" name="uiBHK" value="2" checked/>
+		<label for="radio-bhk-2">4</label>
+		<input type="radio" id="radio-bhk-3" name="uiBHK" value="3"/>
+		<label for="radio-bhk-3">3</label>
+		<input type="radio" id="radio-bhk-4" name="uiBHK" value="4"/>
+		<label for="radio-bhk-4">2</label>
+		<input type="radio" id="radio-bhk-5" name="uiBHK" value="5"/>
+		<label for="radio-bhk-5">1</label>
+	</div>
+
+		<h2>Location</h2>
+	<div>
+  <select class="location" name="" id="uiLocations">
+    <option value="" disabled="disabled" selected="selected">Choose a Location</option>
+		<option>Alandi road</option>
+        <option>Ambegaon Park</option>
+  </select>
+</div>
+	<button class="submit" onclick="onClickedEstimatePrice()" type="button">Estimate Price</button>
+	<div id="uiEstimatedPrice" class="result">	<h2></h2> </div>
+</div>
+
+<div id="emi" class="tabcontent">
+    <h2>EMI Calculator</h2>
+    <form id="emiForm">
+        <label for="loanAmount">Loan Amount:</label><br>
+        <input type="number" id="loanAmount" name="loanAmount" required><br><br>
+        
+        <label for="interestRate">Annual Interest Rate (%):</label>
+        <input type="number" id="interestRate" name="interestRate" step="0.01" required><br><br>
+        
+        <label for="loanTenure">Loan Tenure (in months):</label>
+        <input type="number" id="loanTenure" name="loanTenure" required><br><br>
+        
+        <button type="button" id="calculateEMIButton">Calculate EMI</button>
+    </form>
+    <div id="emiResult"></div>
+</div>
+
+<script type="text/javascript">
+	(function(d, t) {
+		var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+		v.onload = function() {
+		  window.voiceflow.chat.load({
+			verify: { projectID: '662e89c6ab98d49c7a2c91e2' },
+			url: 'https://general-runtime.voiceflow.com',
+			versionID: 'production'
+		  });
+		}
+		v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
+	})(document, 'script');
+  </script>
+
+<script type="text/javascript">
+    // JavaScript code to handle button click
+    document.getElementById("calculateEMIButton").addEventListener("click", function() {
+        this.classList.add("clicked");
+        calculateEMI(); // Call the function to calculate EMI
+    });
+
+    function calculateEMI() {
+        var loanAmount = parseFloat(document.getElementById('loanAmount').value);
+        var interestRate = parseFloat(document.getElementById('interestRate').value);
+        var loanTenure = parseInt(document.getElementById('loanTenure').value);
+
+        var monthlyInterestRate = interestRate / (12 * 100);
+        var totalInstallments = loanTenure;
+        var emi = (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, totalInstallments)) / (Math.pow(1 + monthlyInterestRate, totalInstallments) - 1);
+        var totalRepayment = emi * totalInstallments;
+        var totalInterest = totalRepayment - loanAmount;
+
+        // Display results
+        document.getElementById('emiResult').innerHTML =
+            '<p>EMI: $' + emi.toFixed(2) + '</p>' +
+            '<p>Total Interest Paid: $' + totalInterest.toFixed(2) + '</p>' +
+            '<p>Total Repayment: $' + totalRepayment.toFixed(2) + '</p>';
+    }
+</script>
+
+</body>
+
+</html>
